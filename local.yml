@@ -1,0 +1,68 @@
+version: '3.8'
+
+services:
+    django: &django
+        build:
+            context: .
+            dockerfile: ./compose/local/django/Dockerfile
+        image: bookshare_local_django
+        container_name: django
+        depends_on:
+            - postgres
+        volumes:
+            - .:/app
+        env_file:
+            - ./.envs/.local/.django
+            - ./.envs/.local/.postgres
+        ports:
+            - "8000:8000"
+        command: /start
+
+    postgres:
+        build:
+            context: .
+            dockerfile: ./compose/production/postgres/Dockerfile
+        image: bookshare_local_postgres
+        container_name: postgres
+        volumes:
+            - local_postgres_data:/var/lib/postgresql/data
+            - local_postgres_data_backup:/backup
+        env_file:
+            - ./.envs/.local/.postgres
+
+    redis:
+        image: redis:6.0
+        container_name: redis
+
+    celeryworker:
+        <<: *django
+        image: bookshare_local_celeryworker
+        container_name: celeryworker
+        depends_on:
+          - redis
+          - postgres
+        ports: []
+        command: /start-celeryworker
+
+
+    celerybeat:
+        <<: *django
+        image: bookshare_local_celerybeat
+        container_name: celerybeat
+        depends_on:
+            - redis
+            - postgres
+        ports: []
+        command: /start-celerybeat
+
+    flower:
+        <<: *django
+        image: bookshare_local_flower
+        container_name: flower
+        ports:
+            - "5555:5555"
+        command: /start-flower
+
+volumes:
+    local_postgres_data: {}
+    local_postgres_data_backup: {}

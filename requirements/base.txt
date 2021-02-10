@@ -1,0 +1,37 @@
+# Base dependencies
+
+# Images
+Pillow==8.1.0
+# Python PostgreSQL
+psycopg2==2.8.6 --no-binary psycopg2
+
+# Django
+Django==3.1.5
+
+# Environment
+django-environ==0.4.5
+
+# Django REST Framework
+djangorestframework==3.12.2
+django-filter==2.4.0
+
+# JWT
+#PyJWT
+djangorestframework-jwt
+
+# Passwords security
+cffi==1.14.4
+argon2-cffi==20.1.0
+
+# Static files
+whitenoise==5.2.0
+
+# Redis
+redis>=3.5.3
+
+
+# Celery
+django-redis==4.12.1
+celery==4.4.7
+tornado>=6.1
+flower==0.9.7

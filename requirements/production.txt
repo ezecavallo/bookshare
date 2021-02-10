@@ -1,0 +1,9 @@
+-r ./base.txt
+
+gunicorn==20.0.4
+
+# Static files
+django-storages[azure]==1.11.1
+
+# Email
+django-anymail[mailgun]==8.1
