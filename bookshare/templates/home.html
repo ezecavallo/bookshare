@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="UTF-8">
+    </head>
+    <body>
+    <script>
+    var wsStart = "ws://"
+    if (window.location.protocol == "https:"){
+        wsStart = "wss://"
+    }
+    var webSocketEndpoint =  wsStart + window.location.host + '/notifications/'
+
+
+    var notSocket = new WebSocket(
+        webSocketEndpoint
+    )
+
+    notSocket.onmessage = function(e){
+        console.log('message', e)
+        var h3 = document.createElement('h3');
+        h3.textContent = e.data
+        document.querySelector('body').append(h3)
+
+    }
+
+    notSocket.onopen = function(e){
+        console.log('open', e)
+    }
+
+    notSocket.onerror = function(e){
+        console.log('error', e)
+    }
+
+    notSocket.onclose = function(e){
+        console.log('closed', e)
+    }
+    </script>
+    </body>
+</html>

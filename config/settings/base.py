@@ -29,7 +29,10 @@ DATABASES['default']['ATOMIC_REQUESTS'] = True
 ROOT_URLCONF = 'config.urls'
 
 # WSGI
-WSGI_APPLICATION = 'config.wsgi.application'
+# WSGI_APPLICATION = 'config.wsgi.application'
+
+# ASGI
+ASGI_APPLICATION = "config.asgi.application"
 
 # Auth model
 # Create app first
@@ -43,17 +46,17 @@ DJANGO_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admin',
+    'channels',
 ]
 
 THIRD_PARTY_APPS = [
-
     "rest_framework",
-
 ]
 LOCAL_APPS = [
     'bookshare.users.apps.UsersAppConfig',
     'bookshare.circles.apps.CirclesAppConfig',
     'bookshare.lends.apps.LendsAppConfig',
+    'bookshare.notifications.apps.NotificationsAppConfig',
 ]
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
@@ -169,10 +172,19 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.BrowsableAPIRenderer',
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
     ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 15,
+}
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('redis', 6379)],
+        },
+    },
 }

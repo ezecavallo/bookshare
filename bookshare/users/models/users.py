@@ -48,3 +48,13 @@ class User(BookShareModel, AbstractUser):
     def get_short_name(self):
         """Return username."""
         return self.username
+
+    @property
+    def group_name(self):
+        """
+        Returns a group name based on the user's id to be used by Django Channels.
+        Example usage:
+        user = User.objects.get(pk=1)
+        group_name = user.group_name
+        """
+        return f'user_{self.id}'

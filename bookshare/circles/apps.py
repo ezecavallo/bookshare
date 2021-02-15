@@ -5,5 +5,5 @@ from django.apps import AppConfig
 
 
 class CirclesAppConfig(AppConfig):
-        name = 'bookshare.circles'
-        verbose_name = 'Circles'
+    name = 'bookshare.circles'
+    verbose_name = 'Circles'

@@ -5,5 +5,5 @@ from django.apps import AppConfig
 
 
 class LendsAppConfig(AppConfig):
-        name = 'bookshare.lends'
-        verbose_name = 'Lends'
+    name = 'bookshare.lends'
+    verbose_name = 'Lends'
